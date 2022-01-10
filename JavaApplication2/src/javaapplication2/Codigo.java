@@ -4,6 +4,9 @@ package javaapplication2;
  *
  * @author JARO
  */
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class Codigo {
 
     public static void main(String args[]) {
@@ -12,16 +15,69 @@ public class Codigo {
         System.out.print("\033[32m verde");
         System.out.print("\033[36m azul");
 
-        int[] a = new int[10];
-//        dandole valores al arreglo a
-        for (int i : a) {
-            a[i] = (int) Math.round(Math.random() * 100);
-            System.out.println("\033[31m rojo " + a[i] + " ");
+//        numero aleatorio math.random()*hasta-desde
+        int r1 = (int) (Math.random() * 101 + 1);//del 1 al 100
+
+//        metodos para arrays
+        int[] arr1 = {0, 2, 4, 6, 8, 10};
+        int[] arr2 = {0, 2, 4, 6, 8, 10};
+        int[] arr3 = {10, 8, 6, 4, 2, 0};
+        boolean result1 = Arrays.equals(arr1, arr2);//compara si los arrays son iguales TRUE
+        boolean result2 = Arrays.equals(arr1, arr3);//compara si los arrays son iguales FALSE
+        //-----------------------------------------------------------
+        int[] source = {12, 1, 5, - 2, 16, 14, 18, 20, 25};
+        int[] dest = Arrays.copyOfRange(source, 3, 7);//copia una porcion del arreglo source al dest (pos 3-pos 6)
+        //-----------------------------------------------------------
+        int[] numbers = {1, 2, 3, 4, 5};
+
+        System.out.println(Arrays.toString(numbers));//convierte a string un array
+        //-----------------------------------------------------------
+        int[] numbers2 = {12, 1, 5, - 2, 16, 14};
+
+        Arrays.sort(numbers2);//ordena el array ascendentemente
+        //------------------------------------------------------------
+        int[] myInt = {21, 23, 34, 45, 56, 78, 99};//el arreglo debe estar ordenado
+        int foundIndex = Arrays.binarySearch(myInt, 78);//busca al numero 78 en el arreglo y devuelve su posicion
+        int foundIndex2 = Arrays.binarySearch(myInt, 39);/*la salida sera -4. el signo negativo indica q no existe
+        y el 4(seria 4 - 1 = 3) es la pos donde deberia estar*/
+    }
+
+    static void llenarArreglo(int[] a) {
+        for (int i = 0; i < a.length; i++) {
+            a[i] = (int) (Math.random() * 101 + 1);
         }
+    }
 
-//        numero aleatorio math.random()*(hasta-desde+1)+desde
-        int r = (int) (Math.random() * (100 - 10 + 1) + 10);
-        int r1 = (int) (Math.random() * 101 + 1);
+    static void unirArreglos(int[] a, int[] b) {
+        int[] ab = new int[a.length + b.length];
+        for (int i = 0; i < a.length; i++) {
+            ab[i] = a[i];//arraycopy manual
+        }
+        int contador = 0;
+        for (int i = a.length; i < ab.length; i++) {
+            ab[i] = b[contador];
+            contador++;
+        }
+        System.out.println(Arrays.toString(ab));
+    }
 
+    static void miArrayCopy(int[] a, int[] b) {
+        int[] ab = new int[a.length + b.length];
+        System.arraycopy(a, 0, ab, 0, a.length);
+        System.arraycopy(b, 0, ab, a.length, b.length);
+        System.out.println(Arrays.toString(ab));
+    }
+
+    static boolean esPrimo(int n) {
+        if (n <= 1) {
+            return false;
+        }
+        int contador = 0;
+        for (int i = 2; i <= n; i++) {
+            if (n % i == 0) {
+                contador++;
+            }
+        }
+        return contador <= 1;
     }
 }

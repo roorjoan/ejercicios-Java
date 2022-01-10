@@ -1,6 +1,8 @@
 package javaapplication2;
 
+import java.util.Arrays;
 import java.util.Scanner;
+import static javaapplication2.Codigo.*;
 
 /**
  * Ejercicios sobre Arreglos
@@ -15,20 +17,7 @@ public class Arreglos {
 //        remplazarValor();
 //        maxMin();
 //        organizarParImpar();
-    }
-
-    static void mostrarArreglo(int[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
-        }
-        System.out.println("");
-    }
-
-    static void mostrarArreglo(double[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
-        }
-        System.out.println("");
+//        organizarPrimos();
     }
 
     static void potenciarNumeros() {
@@ -67,17 +56,14 @@ public class Arreglos {
             a[i] = a[i - 1];
         }
         a[0] = ultimo;
-        mostrarArreglo(a);
+        System.out.println(Arrays.toString(a));
     }
 
     static void remplazarValor() {
         int[] arr = new int[10];
 
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int) (Math.random() * 20);//llenar el arreglo con numeros aleatorios 0-20
-        }
-
-        mostrarArreglo(arr);
+        llenarArreglo(arr);
+        System.out.println(Arrays.toString(arr));
 
         Scanner sc = new Scanner(System.in);
         System.out.print("Cual es el numero que desea cambiar? :");
@@ -118,11 +104,11 @@ public class Arreglos {
 
         for (int i = 0; i < a.length; i++) {
             if (a[i] == min) {//comparando para mostrar "minimo" al lado del numero menor
-                System.out.printf("%d  Minimo \n", a[i]);
+                System.out.printf("%d\tMinimo \n", a[i]);
                 continue;//continua a la siguiente iteracion
             }
             if (a[i] == max) {//comparando para mostrar "maximo" al lado del numero mayor
-                System.out.printf("%d  Maximo \n", a[i]);
+                System.out.printf("%d\tMaximo \n", a[i]);
                 continue;//continua a la siguiente iteracion
             }
             System.out.printf("%d  \n", a[i]);
@@ -130,59 +116,74 @@ public class Arreglos {
 
     }
 
-    static void unirArreglos(int[] a, int[] b) {
-        int[] ab = new int[a.length + b.length];
-        for (int i = 0; i < a.length; i++) {
-            ab[i] = a[i];//arraycopy manual
+    static void organizar(int[] numeros, String tipo) {
+        int c1 = 0, c2 = 0, cant1 = 0, cant2 = 0;
+
+        if (tipo.equalsIgnoreCase("par")) {
+            for (int i = 0; i < numeros.length; i++) {
+                if (numeros[i] % 2 == 0) {
+                    cant1++;
+                } else {
+                    cant2++;
+                }
+            }
+        } else if (tipo.equalsIgnoreCase("primo")) {
+            for (int i = 0; i < numeros.length; i++) {
+                if (esPrimo(numeros[i])) {
+                    cant1++;
+                } else {
+                    cant2++;
+                }
+            }
         }
-        int contador = 0;
-        for (int i = a.length; i < ab.length; i++) {
-            ab[i] = b[contador];
-            contador++;
+
+        int[] aux1 = new int[cant1];
+        int[] aux2 = new int[cant2];
+
+        if (tipo.equalsIgnoreCase("par")) {
+            for (int i = 0; i < numeros.length; i++) {
+                if (numeros[i] % 2 == 0) {
+                    aux1[c1] = numeros[i];
+                    c1++;
+                } else {
+                    aux2[c2] = numeros[i];
+                    c2++;
+                }
+            }
+        } else if (tipo.equalsIgnoreCase("primo")) {
+            for (int i = 0; i < numeros.length; i++) {
+                if (esPrimo(numeros[i])) {
+                    aux1[c1] = numeros[i];
+                    c1++;
+                } else {
+                    aux2[c2] = numeros[i];
+                    c2++;
+                }
+            }
         }
-        mostrarArreglo(ab);
+        miArrayCopy(aux1, aux2);
     }
 
     static void organizarParImpar() {
-        int[] numeros = new int[20];
-        int c1 = 0, c2 = 0, cantPares = 0, cantImp = 0;
-
-        //llenar el arreglo y contar los pares e impares
-        for (int i = 0; i < numeros.length; i++) {
-            numeros[i] = (int) (Math.random() * 101);
-            if (numeros[i] % 2 == 0) {
-                cantPares++;
-            } else {
-                cantImp++;
-            }
-        }
-        int[] pares = new int[cantPares];
-        int[] impares = new int[cantImp];
-
-        for (int i = 0; i < numeros.length; i++) {
-            if (numeros[i] % 2 == 0) {
-                pares[c1] = numeros[i];//asignar los valores pares al arreglo pares
-                c1++;
-            } else {
-                impares[c2] = numeros[i];//asignar los valores impares al arreglo impares
-                c2++;
-            }
-        }
-        System.out.println("Arreglo ALEATORIO original");
-        mostrarArreglo(numeros);
-        System.out.println("Arreglo PARES");
-        mostrarArreglo(pares);
-        System.out.println("Arreglo IMPARES");
-        mostrarArreglo(impares);
-        System.out.println("Unión de arreglos PARES-IMPARES");
-        unirArreglos(pares, impares);
+        int[] a = new int[10];
+        llenarArreglo(a);
+        System.out.println("Arreglo ORIGINAL");
+        System.out.println(Arrays.toString(a));
+        System.out.println("Arreglo ordenado PAR-IMPAR");
+        organizar(a, "par");
     }
 
-    static void torosVacas() {
-        int[] secreto = new int[4];
-        int[] numero = new int[4];
+    static void organizarPrimos() {
         Scanner sc = new Scanner(System.in);
-        int intentos, pos;
+        int[] arr = new int[10];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = sc.nextInt();
+        }
+        System.out.println("Arreglo ORIGINAL");
+        System.out.println(Arrays.toString(arr));
+        System.out.println("Arreglo ordenado PRIMOS primero");
+        organizar(arr, "primo");
 
     }
+
 }
