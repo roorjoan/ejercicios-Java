@@ -42,9 +42,9 @@ public class Codigo {
         y el 4(seria 4 - 1 = 3) es la pos donde deberia estar*/
     }
 
-    static void llenarArreglo(int[] a) {
+    static void llenarArreglo(int[] a, int desde, int hasta) {
         for (int i = 0; i < a.length; i++) {
-            a[i] = (int) (Math.random() * 101 + 1);
+            a[i] = (int) (Math.random() * hasta + desde);
         }
     }
 
@@ -79,5 +79,25 @@ public class Codigo {
             }
         }
         return contador <= 1;
+    }
+
+    static int getMinMax(int[] a, String opcion) {
+        int min = a[0];//asignando el primer valor del arreglo para comparar(minimo) con los restantes numeros
+        int max = a[0];//asignando el primer valor del arreglo para comparar(maximo) con los restantes numeros
+
+        for (int i = 1; i < a.length; i++) {
+            if (min > a[i]) {//buscando el minimo
+                min = a[i];
+            }
+            if (max < a[i]) {//buscando el maximo
+                max = a[i];
+            }
+        }
+        if (opcion.equalsIgnoreCase("minimo")) {
+            return min;
+        } else if (opcion.equalsIgnoreCase("maximo")) {
+            return max;
+        }
+        return -1;
     }
 }

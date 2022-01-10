@@ -18,6 +18,8 @@ public class Arreglos {
 //        maxMin();
 //        organizarParImpar();
 //        organizarPrimos();
+//        destacarMinMax();
+
     }
 
     static void potenciarNumeros() {
@@ -62,7 +64,7 @@ public class Arreglos {
     static void remplazarValor() {
         int[] arr = new int[10];
 
-        llenarArreglo(arr);
+        llenarArreglo(arr, 1, 20);
         System.out.println(Arrays.toString(arr));
 
         Scanner sc = new Scanner(System.in);
@@ -90,17 +92,8 @@ public class Arreglos {
             a[i] = sc.nextInt();//llenando el arreglo con valores entrados por el teclado
         }
 
-        int min = a[0];//asignando el primer valor del arreglo para comparar(minimo) con los restantes numeros
-        int max = a[0];//asignando el primer valor del arreglo para comparar(maximo) con los restantes numeros
-
-        for (int i = 1; i < a.length; i++) {
-            if (min > a[i]) {//buscando el minimo
-                min = a[i];
-            }
-            if (max < a[i]) {//buscando el maximo
-                max = a[i];
-            }
-        }
+        int min = getMinMax(a, "minimo");
+        int max = getMinMax(a, "maximo");
 
         for (int i = 0; i < a.length; i++) {
             if (a[i] == min) {//comparando para mostrar "minimo" al lado del numero menor
@@ -166,7 +159,7 @@ public class Arreglos {
 
     static void organizarParImpar() {
         int[] a = new int[10];
-        llenarArreglo(a);
+        llenarArreglo(a, 1, 20);
         System.out.println("Arreglo ORIGINAL");
         System.out.println(Arrays.toString(a));
         System.out.println("Arreglo ordenado PAR-IMPAR");
@@ -186,4 +179,32 @@ public class Arreglos {
 
     }
 
+    static void destacarMinMax() {
+        int[] a = new int[20];
+
+        llenarArreglo(a, 1, 20);
+
+        int min = getMinMax(a, "minimo");
+        int max = getMinMax(a, "maximo");
+
+        System.out.println("¿Qué quiere destacar? (1 – mínimo, 2 – máximo): ");
+        Scanner sc = new Scanner(System.in);
+        int destacar = sc.nextInt();
+
+        for (int i = 0; i < a.length; i++) {
+            if (destacar == 1) {
+                if (a[i] == min) {//comparando para mostrar "minimo" al lado del numero menor
+                    System.out.printf("**%d** ", a[i]);
+                    continue;//continua a la siguiente iteracion
+                }
+            } else {
+                if (a[i] == max) {//comparando para mostrar "maximo" al lado del numero mayor
+                    System.out.printf("**%d** ", a[i]);
+                    continue;//continua a la siguiente iteracion
+                }
+            }
+            System.out.printf("%d ", a[i]);
+        }
+        System.out.println("");
+    }
 }
