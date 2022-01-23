@@ -1,8 +1,6 @@
 package javaapplication2;
 
-import java.util.Arrays;
-import java.util.Scanner;
-import static javaapplication2.Codigo.*;
+import java.util.*;
 
 /**
  * Ejercicios sobre Arreglos
@@ -64,7 +62,7 @@ public class Arreglos {
     static void remplazarValor() {
         int[] arr = new int[10];
 
-        llenarArreglo(arr, 1, 20);
+        Codigo.llenarArreglo(arr, 1, 20);
         System.out.println(Arrays.toString(arr));
 
         Scanner sc = new Scanner(System.in);
@@ -92,8 +90,8 @@ public class Arreglos {
             a[i] = sc.nextInt();//llenando el arreglo con valores entrados por el teclado
         }
 
-        int min = getMinMax(a, "minimo");
-        int max = getMinMax(a, "maximo");
+        int min = Codigo.getMinMax(a, "minimo");
+        int max = Codigo.getMinMax(a, "maximo");
 
         for (int i = 0; i < a.length; i++) {
             if (a[i] == min) {//comparando para mostrar "minimo" al lado del numero menor
@@ -122,7 +120,7 @@ public class Arreglos {
             }
         } else if (tipo.equalsIgnoreCase("primo")) {
             for (int i = 0; i < numeros.length; i++) {
-                if (esPrimo(numeros[i])) {
+                if (Codigo.esPrimo(numeros[i])) {
                     cant1++;
                 } else {
                     cant2++;
@@ -145,7 +143,7 @@ public class Arreglos {
             }
         } else if (tipo.equalsIgnoreCase("primo")) {
             for (int i = 0; i < numeros.length; i++) {
-                if (esPrimo(numeros[i])) {
+                if (Codigo.esPrimo(numeros[i])) {
                     aux1[c1] = numeros[i];
                     c1++;
                 } else {
@@ -154,12 +152,12 @@ public class Arreglos {
                 }
             }
         }
-        miArrayCopy(aux1, aux2);
+        Codigo.miArrayCopy(aux1, aux2);
     }
 
     static void organizarParImpar() {
         int[] a = new int[10];
-        llenarArreglo(a, 1, 20);
+        Codigo.llenarArreglo(a, 1, 20);
         System.out.println("Arreglo ORIGINAL");
         System.out.println(Arrays.toString(a));
         System.out.println("Arreglo ordenado PAR-IMPAR");
@@ -182,10 +180,10 @@ public class Arreglos {
     static void destacarMinMax() {
         int[] a = new int[20];
 
-        llenarArreglo(a, 1, 20);
+        Codigo.llenarArreglo(a, 1, 20);
 
-        int min = getMinMax(a, "minimo");
-        int max = getMinMax(a, "maximo");
+        int min = Codigo.getMinMax(a, "minimo");
+        int max = Codigo.getMinMax(a, "maximo");
 
         System.out.println("¿Qué quiere destacar? (1 – mínimo, 2 – máximo): ");
         Scanner sc = new Scanner(System.in);

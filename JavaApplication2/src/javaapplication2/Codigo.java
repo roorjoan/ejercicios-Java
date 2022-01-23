@@ -4,8 +4,7 @@ package javaapplication2;
  *
  * @author JARO
  */
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class Codigo {
 
