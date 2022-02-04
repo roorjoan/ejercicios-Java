@@ -20,11 +20,20 @@ public class Uso_Empleado {
 //        System.out.println("Empleado " + empleado1.getNombre() + " - " + empleado1.getAltaContrato());
 //        System.out.println("Empleado " + empleado2.getNombre() + " - " + empleado2.getAltaContrato());
 
-        Empleado[] misEmpleados = new Empleado[4];
+        Jefatura jefe = new Jefatura("JARO", 4010, 2018, 9, 12);
+        jefe.setIncentivo(500);
+
+        Empleado[] misEmpleados = new Empleado[6];
         misEmpleados[0] = new Empleado("Jose A", 3410, 2019, 11, 05);
         misEmpleados[1] = new Empleado("Antonio R", 4000, 2017, 12, 15);
         misEmpleados[2] = new Empleado("Rodriguez O");
         misEmpleados[3] = new Empleado("Ortega");
+
+        misEmpleados[4] = jefe;//polimorfismo
+        misEmpleados[5] = new Jefatura("yoyo", 2200, 2000, 2, 28);
+
+        Jefatura jefa = (Jefatura) misEmpleados[5];//casting
+        jefa.setIncentivo(1500);
 
         for (Empleado e : misEmpleados) {
             e.subirSueldo(5);
@@ -32,7 +41,6 @@ public class Uso_Empleado {
         for (Empleado e : misEmpleados) {
             System.out.printf("Empleado %s tiene un sueldo de %s\n", e.getNombre(), e.getSueldo());
         }
-
     }
 }
 
@@ -68,6 +76,25 @@ class Empleado {
     public void subirSueldo(double porciento) {
         double aumento = sueldo * porciento / 100;
         sueldo += aumento;
+    }
+
+}
+
+final class Jefatura extends Empleado {
+
+    private int incentivo;
+
+    public Jefatura(String nombre, double sueldo, int anio, int mes, int dia) {
+        super(nombre, sueldo, anio, mes, dia);
+    }
+
+    public void setIncentivo(int incentivo) {
+        this.incentivo = incentivo;
+    }
+
+    public double getSueldo() {
+        double sueldo_jefe = super.getSueldo();//sobreescribiendo el metodo de la clase padre
+        return sueldo_jefe + incentivo;
     }
 
 }

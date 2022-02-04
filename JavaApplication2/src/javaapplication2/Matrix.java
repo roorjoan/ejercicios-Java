@@ -55,7 +55,7 @@ public class Matrix {
 
     static void sumatoriaMatrix() {
         int[][] m = new int[2][3];
-        llenarMatrix(m);
+        llenarMatrix(m, 0, 9);
         mostrarMatrix(m);
         System.out.printf("Suma fila 1 (%d)\nSuma fila 2 (%d)\n", sumRow(m, 0), sumRow(m, 1));
         System.out.printf("Suma columna 1 (%d)\nSuma columna 2 (%d)\nSuma columna 3 (%d)\n", sumCol(m, 0), sumCol(m, 1), sumCol(m, 2));
