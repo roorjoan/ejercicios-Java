@@ -38,13 +38,16 @@ public class Uso_Empleado {
         for (Empleado e : misEmpleados) {
             e.subirSueldo(5);
         }
+
+        System.out.println(jefa.tomarDecision("Subir el sueldo a todos"));//utilizando metodo de la interfaz Jefes
+        Arrays.sort(misEmpleados);//ordena el array de objetos Empleados por sueldo
         for (Empleado e : misEmpleados) {
             System.out.printf("Empleado %s tiene un sueldo de %s\n", e.getNombre(), e.getSueldo());
         }
     }
 }
 
-class Empleado {
+class Empleado implements Comparable {
 
     private String nombre;
     private double sueldo;
@@ -78,9 +81,20 @@ class Empleado {
         sueldo += aumento;
     }
 
+    public int compareTo(Object obj) {//implementando el metodo de la interfaz
+        Empleado e = (Empleado) obj;//casting del obj
+        if (this.sueldo < e.sueldo) {
+            return -1;
+        }
+        if (this.sueldo > e.sueldo) {
+            return 1;
+        }
+        return 0;
+    }
+
 }
 
-final class Jefatura extends Empleado {
+final class Jefatura extends Empleado implements Jefes {
 
     private int incentivo;
 
@@ -95,6 +109,10 @@ final class Jefatura extends Empleado {
     public double getSueldo() {
         double sueldo_jefe = super.getSueldo();//sobreescribiendo el metodo de la clase padre
         return sueldo_jefe + incentivo;
+    }
+
+    public String tomarDecision(String decision) {//implementando el metodo de la interfaz Jefes
+        return "EL jefe tomó la desicion de: " + decision;
     }
 
 }
