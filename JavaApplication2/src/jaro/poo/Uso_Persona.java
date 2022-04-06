@@ -1,4 +1,4 @@
-package poo;
+package jaro.poo;
 
 import java.util.Date;
 import java.util.GregorianCalendar;

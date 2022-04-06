@@ -1,4 +1,4 @@
-package javaapplication2;
+package jaro.javaapplication2;
 
 import java.util.Scanner;
 

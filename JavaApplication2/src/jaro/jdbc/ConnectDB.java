@@ -1,6 +1,14 @@
-package bbdd_jdbc;
+package jaro.jdbc;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
+import java.util.Properties;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -8,9 +16,8 @@ import java.sql.*;
  */
 public class ConnectDB {
 
-//    public static void main(String[] args) {
+    public static void main(String[] args) {
 //        try {
-//            createUser("sdf@asd.com", "pass", "jose", "rodriguezzzzz");//crear usuario
 //            ResultSet lista = readUser();//listar todos los usuarios
 //            while (lista.next()) {
 //                System.out.println(lista.getString(4) + " " + lista.getString(5));
@@ -24,44 +31,63 @@ public class ConnectDB {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-//    }
-    private static Connection configDB() {
-        Connection miConexion = null;
 
+        conectarDB();
+//        createUser("postgresql", "postgresql", "asd@email.com");
+    }
+
+    static Properties readProperties() {
+        Properties prop = new Properties();
+//        Path ruta = Paths.get("src/recursos/mysql.properties");//obteniendo la ruta mysql
+        Path ruta = Paths.get("src/recursos/postgresql.properties");//obteniendo la ruta postgresql
+        try {
+            BufferedReader bf = Files.newBufferedReader(ruta, StandardCharsets.UTF_8);//abriendo el archivo para leerlo
+            prop.load(bf);//leyendo el archivo de propiedades
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer la configuración de la base de datos: " + e.getMessage());
+        }
+        return prop;
+    }
+
+    static Connection conectarDB() {
+        //leyendo las propiedades de la DB
+        Properties prop = readProperties();
+        String url = prop.getProperty("db.url");
+        String user = prop.getProperty("db.user");
+        String passwd = prop.getProperty("db.passwd");
+        System.out.println(url + " " + user + " " + passwd);
+
+        Connection miConexion = null;
         try {
             //crear conexion
-            miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/usuarios", "root", "root");
-            System.out.println("CONEXION EXITOSA");
+//            Class.forName("org.postgresql.Driver");
+            miConexion = DriverManager.getConnection(url, user, passwd);
+            JOptionPane.showMessageDialog(null, "Conexión exitosa");
 
-        } catch (SQLException e) {
-            System.out.println("CONEXION FALLIDA");
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Conexión fallida: " + e.getMessage());
         }
-
         return miConexion;
     }
 
-    public static void createUser(String correo, String contrasenia, String nombre, String apellido) {
+    public static void createUser(String nombre, String contrasenia, String correo) {
         try {
             //crear conexion
-            Connection miConexion = configDB();
+            Connection miConexion = conectarDB();
 
             //consulta preparada, optimizado
-            String sql = "INSERT INTO usuario(correo,contrasenia,nombre,apellido) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO usuarios(nombre,contrasenia,correo) VALUES (?,?,?)";
             PreparedStatement miSentencia = miConexion.prepareStatement(sql);
 
             //pasar parametros
-            miSentencia.setString(1, correo);
+            miSentencia.setString(1, nombre);
             miSentencia.setString(2, contrasenia);
-            miSentencia.setString(3, nombre);
-            miSentencia.setString(4, apellido);
+            miSentencia.setString(3, correo);
 
             miSentencia.executeUpdate();
-            System.out.println("OPERACION REALIZADA CORRECTAMENTE!!!");
-
+            JOptionPane.showMessageDialog(null, "Usuario creado");
         } catch (SQLException e) {
-            System.out.println("ERROR AL CREAR EL USUARIO");
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al crear el usuario: " + e.getMessage());
         }
     }
 
@@ -69,7 +95,7 @@ public class ConnectDB {
         ResultSet rs = null;
         try {
             //crear conexion
-            Connection miConexion = configDB();
+            Connection miConexion = conectarDB();
 
             Statement miSentencia = miConexion.createStatement();
 
@@ -88,7 +114,7 @@ public class ConnectDB {
     public static void updateUser(int id, String correo, String contrasenia, String nombre, String apellido) {
         try {
             //crear conexion
-            Connection miConexion = configDB();
+            Connection miConexion = conectarDB();
 
             //consulta preparada, optimizado
             String sql = "UPDATE usuario SET correo = ?, contrasenia = ?, nombre = ?, apellido = ? WHERE id = ?";
@@ -113,7 +139,7 @@ public class ConnectDB {
     public static void deleteUser(int id) {
         try {
             //crear conexion
-            Connection miConexion = configDB();
+            Connection miConexion = conectarDB();
 
             //consulta preparada, optimizado
             String sql = "DELETE FROM usuario WHERE id = ?";
@@ -135,7 +161,7 @@ public class ConnectDB {
         ResultSet rs = null;
         try {
             //crear conexion
-            Connection miConexion = configDB();
+            Connection miConexion = conectarDB();
 
             //consulta preparada, optimizado
             String sql = "SELECT * FROM usuario WHERE id=?";

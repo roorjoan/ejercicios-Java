@@ -1,4 +1,4 @@
-package poo;
+package jaro.poo;
 
 import javax.swing.Timer;
 import java.awt.event.*;
